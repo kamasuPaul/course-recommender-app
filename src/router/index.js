@@ -7,8 +7,7 @@ const routes = [
   {
     path: '/',
     redirect: 'dashboard',
-  },
-  {
+  }, {
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/Dashboard.vue'),
@@ -44,19 +43,21 @@ const routes = [
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
   },
   {
-    path: '/pages/login',
-    name: 'pages-login',
+    path: '/login',
+    name: 'auth-login',
     component: () => import('@/views/pages/Login.vue'),
     meta: {
       layout: 'blank',
+      auth: false,
     },
   },
   {
-    path: '/pages/register',
-    name: 'pages-register',
+    path: '/register',
+    name: 'auth-register',
     component: () => import('@/views/pages/Register.vue'),
     meta: {
       layout: 'blank',
+      auth: false,
     },
   },
   {
@@ -73,10 +74,10 @@ const routes = [
   },
 ]
 
-const router = new VueRouter({
+Vue.router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
 })
 
-export default router
+export default Vue.router
