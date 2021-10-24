@@ -1,32 +1,34 @@
 <template>
   <v-card>
+    <v-card-title class="align-start">
+      <span>All available university programmes </span>
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="usreList"
-      item-key="full_name"
+      :items="programmes"
+      item-key="id"
       class="table-rounded"
-      hide-default-footer
+      :items-per-page="10"
+      :loading="loading"
+      :search="search"
       disable-sort
     >
       <!-- name -->
       <template #[`item.full_name`]="{item}">
         <div class="d-flex flex-column">
-          <span class="d-block font-weight-semibold text--primary text-truncate">{{ item.full_name }}</span>
-          <small>{{ item.post }}</small>
+          <span class="d-block font-weight-semibold text--primary text-truncate">{{ item.name }}</span>
         </div>
       </template>
-      <template #[`item.salary`]="{item}">
-        {{ `$${item.salary}` }}
-      </template>
-      <!-- status -->
-      <template #[`item.status`]="{item}">
-        <v-chip
-          small
-          :color="statusColor[status[item.status]]"
-          class="font-weight-medium"
-        >
-          {{ status[item.status] }}
-        </v-chip>
+      <template #[`item.tuition_fees`]="{item}">
+        --
       </template>
     </v-data-table>
   </v-card>
@@ -34,36 +36,34 @@
 
 <script>
 import { mdiSquareEditOutline, mdiDotsVertical } from '@mdi/js'
-import data from './datatable-data'
 
 export default {
   setup() {
     const statusColor = {
       /* eslint-disable key-spacing */
-      Current: 'primary',
-      Professional: 'success',
-      Rejected: 'error',
-      Resigned: 'warning',
-      Applied: 'info',
+      DAY: 'primary',
+      EVENNING: 'success',
+      AFTERNOON: 'error',
+      EXTERNAL: 'warning',
+      SPECIAL: 'info',
       /* eslint-enable key-spacing */
     }
 
     return {
       headers: [
-        { text: 'NAME', value: 'full_name' },
-        { text: 'EMAIL', value: 'email' },
-        { text: 'DATE', value: 'start_date' },
-        { text: 'SALARY', value: 'salary' },
-        { text: 'AGE', value: 'age' },
-        { text: 'STATUS', value: 'status' },
+        { text: 'PROGRAMME', value: 'name' },
+        { text: 'CODE', value: 'alias_code' },
+        { text: 'CAMPUS', value: 'campus.name' },
+        { text: 'TUITION FEES', value: 'tuition_fees' },
+        { text: 'DURATION', value: 'years' },
+        { text: 'STUDY TIME', value: 'type' },
       ],
-      usreList: data,
       status: {
-        1: 'Current',
-        2: 'Professional',
-        3: 'Rejected',
-        4: 'Resigned',
-        5: 'Applied',
+        1: 'DAY',
+        2: 'EVENNING',
+        3: 'AFTERNOON',
+        4: 'EXTERNAL',
+        5: 'SPECIAL',
       },
       statusColor,
 
@@ -73,6 +73,29 @@ export default {
         mdiDotsVertical,
       },
     }
+  },
+  data() {
+    return {
+      programmes: [],
+      loading: true,
+      search: '',
+    }
+  },
+  created() {
+    this.fetchProgrammes()
+  },
+  methods: {
+    fetchProgrammes() {
+      this.$http
+        .get('/courses')
+        .then(res => {
+          console.log(res.data[0])
+          this.programmes = res.data
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
   },
 }
 </script>
