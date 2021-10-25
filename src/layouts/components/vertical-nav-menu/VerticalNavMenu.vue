@@ -43,30 +43,10 @@
         :icon="icons.mdiHomeOutline"
       ></nav-menu-link>
       <nav-menu-link
-        title="Account Settings"
-        :to="{ name: 'pages-account-settings'}"
+        title="Results"
+        :to="{ name: 'results'}"
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
-      <nav-menu-group
-        title="Pages"
-        :icon="icons.mdiFileOutline"
-      >
-        <nav-menu-link
-          title="Login"
-          :to="{ name: 'pages-login' }"
-          target="_blank"
-        ></nav-menu-link>
-        <nav-menu-link
-          title="Register"
-          :to="{ name: 'pages-register' }"
-          target="_blank"
-        ></nav-menu-link>
-        <nav-menu-link
-          title="Error"
-          :to="{ name: 'error-404' }"
-          target="_blank"
-        ></nav-menu-link>
-      </nav-menu-group>
       <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>
       <nav-menu-link
         title="Typography"
@@ -123,13 +103,11 @@ import {
   mdiAccountCogOutline,
 } from '@mdi/js'
 import NavMenuSectionTitle from './components/NavMenuSectionTitle.vue'
-import NavMenuGroup from './components/NavMenuGroup.vue'
 import NavMenuLink from './components/NavMenuLink.vue'
 
 export default {
   components: {
     NavMenuSectionTitle,
-    NavMenuGroup,
     NavMenuLink,
   },
   props: {

@@ -27,7 +27,7 @@
           <span class="d-block font-weight-semibold text--primary text-truncate">{{ item.name }}</span>
         </div>
       </template>
-      <template #[`item.tuition_fees`]="{item}">
+      <template #[`item.tuition_fees`]>
         --
       </template>
     </v-data-table>
