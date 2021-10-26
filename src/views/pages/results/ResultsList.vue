@@ -91,9 +91,6 @@
           >
             Continue
           </v-btn>
-          <v-btn text>
-            Cancel
-          </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="2">
@@ -152,35 +149,87 @@
               </v-row>
             </v-form>
           </v-card>
-
+          <v-btn
+            text
+            @click="e1 = 1"
+          >
+            Back
+          </v-btn>
           <v-btn
             color="primary"
             @click="e1 = 3"
           >
             Continue
           </v-btn>
-
-          <v-btn text>
-            Cancel
-          </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="3">
           <v-card
-            class="mb-12"
+            class="mb-12 center"
             color="grey lighten-1"
-            height="200px"
-          ></v-card>
-
+          >
+            <v-item-group mandatory>
+              <v-container>
+                <v-row justify="center">
+                  <v-col
+                    cols="4"
+                  >
+                    <v-item @click="gender= !gender" v-slot="{ active, toggle }">
+                      <v-card
+                        :color="active ? 'primary' : ''"
+                        class="d-flex align-center"
+                        dark
+                        height="200"
+                        @click="toggle"
+                      >
+                        <v-scroll-y-transition>
+                          <div
+                            v-if="active"
+                            class="text-h2 flex-grow-1 text-center"
+                          >
+                            Male
+                          </div>
+                        </v-scroll-y-transition>
+                      </v-card>
+                    </v-item>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                  >
+                    <v-item v-slot="{ active, toggle }">
+                      <v-card
+                        :color="active ? 'primary' : ''"
+                        class="d-flex align-center"
+                        dark
+                        height="200"
+                        @click="toggle"
+                      >
+                        <v-scroll-y-transition>
+                          <div
+                            v-if="active"
+                            class="text-h2 flex-grow-1 text-center"
+                          >
+                            Female
+                          </div>
+                        </v-scroll-y-transition>
+                      </v-card>
+                    </v-item>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-item-group>
+          </v-card>
+          <v-btn
+            text
+            @click="e1 = 2"
+          >
+            Back
+          </v-btn>
           <v-btn
             color="primary"
             @click="e1 = 1"
           >
-            Continue
-          </v-btn>
-
-          <v-btn text>
-            Cancel
+            Submit
           </v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -211,6 +260,7 @@ export default {
       a_subjects: [],
       a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P'],
       selected_alevel_subjects: [],
+      gender: true,
     }
   },
   computed: {
