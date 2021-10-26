@@ -76,7 +76,10 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <OLevelResults :selected-subjects="selected_olevel_subjects"></OLevelResults>
+                  <OLevelResults
+                    :selected-subjects="selected_olevel_subjects"
+                    @removeItem="removeSubject($event)"
+                  ></OLevelResults>
                 </v-col>
               </v-row>
             </v-form>
@@ -177,8 +180,8 @@ export default {
       this.subject_id = null
       this.grade = null
     },
-    removeSubject() {
-
+    removeSubject(id) {
+      this.selected_olevel_subjects = this.selected_olevel_subjects.filter(x => x.subject_id !== id)
     },
     fetchSubjects() {
       this.$http.get('/subjects')

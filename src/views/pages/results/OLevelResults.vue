@@ -30,9 +30,19 @@
             {{ item.code }}
           </td>
           <td class="text-center">
-            <v-icon size="30">
-              {{ icons.mdiCloseCircleOutline }}
-            </v-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  size="30"
+                  v-bind="attrs"
+                  @click="removeItem(item.subject_id)"
+                  v-on="on"
+                >
+                  {{ icons.mdiCloseCircleOutline }}
+                </v-icon>
+              </template>
+              <span>Remove subject</span>
+            </v-tooltip>
           </td>
         </tr>
       </tbody>
@@ -56,6 +66,11 @@ export default {
         mdiCloseCircleOutline,
       },
     }
+  },
+  methods: {
+    removeItem(id) {
+      this.$emit('removeItem', id)
+    },
   },
 }
 </script>
