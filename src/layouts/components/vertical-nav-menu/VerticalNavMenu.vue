@@ -49,8 +49,8 @@
       ></nav-menu-link>
       <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>
       <nav-menu-link
-        title="Typography"
-        :to="{ name: 'typography' }"
+        title="Universities"
+        :to="{ name: 'universities' }"
         :icon="icons.mdiAlphaTBoxOutline"
       ></nav-menu-link>
       <nav-menu-link
