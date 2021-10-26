@@ -100,8 +100,58 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            height="200px"
-          ></v-card>
+          >
+            <v-form class="multi-col-validation mt-6">
+              <v-row>
+                <v-col
+                  md="4"
+                  cols="12"
+                >
+                  <v-select
+                    v-model="a_subject_id"
+                    :items="a_subjects"
+                    filled
+                    label="Subject"
+                    item-text="name"
+                    item-value="id"
+                  ></v-select>
+                </v-col>
+
+                <v-col
+                  md="4"
+                  cols="12"
+                >
+                  <v-select
+                    v-model="a_grade"
+                    :items="a_grades"
+                    filled
+                    label="Grade"
+                  ></v-select>
+                </v-col>
+                <v-col
+                  md="4"
+                  cols="12"
+                >
+                  <v-btn
+                    dense
+                    outlined
+                    :disabled="disabledA"
+                    @click="addASubject"
+                  >
+                    Add subject
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <ALevelResults
+                    :selected-subjects="selected_alevel_subjects"
+                    @removeItem="removeASubject($event)"
+                  ></ALevelResults>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card>
 
           <v-btn
             color="primary"
@@ -140,28 +190,35 @@
 
 <script>
 import OLevelResults from './OLevelResults.vue'
+import ALevelResults from './ALevelResults.vue'
 
 export default {
   components: {
     OLevelResults,
+    ALevelResults,
   },
   data() {
     return {
       e1: 1,
       subject_id: null,
       grade: null,
+      a_subject_id: null,
+      a_grade: null,
       o_subjects: [],
       o_grades: ['D1', 'D2', 'C3', 'C4', 'C5', 'C6', 'P7', 'P8', 'F9', 'X'],
       selected_olevel_subjects: [
       ],
       a_subjects: [],
-      a_grades: [],
+      a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P'],
       selected_alevel_subjects: [],
     }
   },
   computed: {
     disabled() {
       return this.subject_id == null || this.grade == null
+    },
+    disabledA() {
+      return this.a_subject_id == null || this.a_grade == null
     },
   },
   mounted() {
@@ -186,8 +243,29 @@ export default {
       this.subject_id = null
       this.grade = null
     },
+    addASubject() {
+      const sub = this.a_subjects.find(x => x.id === this.a_subject_id)
+      const exists = this.selected_alevel_subjects.find(x => x.subject_id === this.a_subject_id)
+      if (exists || this.selected_alevel_subjects.length > 5) {
+        return
+      }
+      const subject = {
+        subject_id: this.a_subject_id,
+        grade: this.a_grade,
+        subject_name: sub.name,
+        code: sub.code,
+      }
+      this.selected_alevel_subjects.push(subject)
+
+      // make grade and subject empty
+      this.a_subject_id = null
+      this.a_grade = null
+    },
     removeSubject(id) {
       this.selected_olevel_subjects = this.selected_olevel_subjects.filter(x => x.subject_id !== id)
+    },
+    removeASubject(id) {
+      this.selected_alevel_subjects = this.selected_alevel_subjects.filter(x => x.subject_id !== id)
     },
     fetchSubjects() {
       this.$http.get('/subjects')
