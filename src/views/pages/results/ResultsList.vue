@@ -68,6 +68,7 @@
                   <v-btn
                     dense
                     outlined
+                    :disabled="disabled"
                     @click="addOSubject"
                   >
                     Add subject
@@ -147,8 +148,8 @@ export default {
   data() {
     return {
       e1: 1,
-      subject_id: '',
-      grade: '',
+      subject_id: null,
+      grade: null,
       o_subjects: [],
       o_grades: ['D1', 'D2', 'C3', 'C4', 'C5', 'C6', 'P7', 'P8', 'F9', 'X'],
       selected_olevel_subjects: [
@@ -158,6 +159,11 @@ export default {
       selected_alevel_subjects: [],
     }
   },
+  computed: {
+    disabled() {
+      return this.subject_id == null || this.grade == null
+    },
+  },
   mounted() {
     this.fetchSubjects()
   },
@@ -165,7 +171,7 @@ export default {
     addOSubject() {
       const sub = this.o_subjects.find(x => x.id === this.subject_id)
       const exists = this.selected_olevel_subjects.find(x => x.subject_id === this.subject_id)
-      if (exists) {
+      if (exists || this.selected_olevel_subjects.length > 10) {
         return
       }
       const subject = {

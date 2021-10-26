@@ -72,5 +72,6 @@ export default {
       this.$emit('removeItem', id)
     },
   },
+
 }
 </script>
