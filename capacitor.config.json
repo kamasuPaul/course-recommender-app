@@ -1,0 +1,6 @@
+{
+  "appId": "com.courserecommender.app",
+  "appName": "Course recommender",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
