@@ -238,7 +238,8 @@
             </v-btn>
             <v-btn
               color="primary"
-              @click="e1 = 1"
+              :loading="submitLoading"
+              @click="submitResults()"
             >
               Submit
             </v-btn>
@@ -276,6 +277,7 @@ export default {
       a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P'],
       selected_alevel_subjects: [],
       gender: true,
+      submitLoading: false,
     }
   },
   computed: {
@@ -343,6 +345,30 @@ export default {
               this.o_subjects.push(subject)
             }
           })
+        })
+        .finally(() => {
+          // sort the a_subjects and o_subjects arrays
+
+          this.a_subjects.sort((a, b) => a.name.localeCompare(b.name))
+          this.o_subjects.sort((a, b) => a.name.localeCompare(b.name))
+        })
+    },
+    submitResults() {
+      this.submitLoading = true
+      const data = {
+        o_level_subjects: this.selected_olevel_subjects,
+        a_level_subjects: this.selected_alevel_subjects,
+      }
+
+      this.$http.post('/results', data)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          this.submitLoading = false
         })
     },
   },
