@@ -53,6 +53,11 @@ const routes = [
     component: () => import('@/views/pages/universities/Universities.vue'),
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () => import('@/views/cards/Card.vue'),
+  },
+  {
     path: '/login',
     name: 'auth-login',
     component: () => import('@/views/pages/Login.vue'),

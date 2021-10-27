@@ -54,28 +54,13 @@
         :icon="icons.mdiAlphaTBoxOutline"
       ></nav-menu-link>
       <nav-menu-link
-        title="Icons"
-        :to="{ name: 'icons' }"
-        :icon="icons.mdiEyeOutline"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Cards"
-        :to="{ name: 'cards' }"
+        title="About"
+        :to="{ name: 'about' }"
         :icon="icons.mdiCreditCardOutline"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Tables"
-        :to="{ name: 'simple-table' }"
-        :icon="icons.mdiTable"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Form Layouts"
-        :to="{ name: 'form-layouts' }"
-        :icon="icons.mdiFormSelect"
       ></nav-menu-link>
     </v-list>
     <a
-      href="https://themeselection.com/products/materio-vuetify-vuejs-admin-template"
+      href="#"
       target="_blank"
       rel="nofollow"
     >
