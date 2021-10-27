@@ -4,6 +4,9 @@
       <thead>
         <tr>
           <th class="text-uppercase">
+            No.
+          </th>
+          <th class="text-uppercase">
             Subject
           </th>
           <th class="text-center text-uppercase">
@@ -19,9 +22,10 @@
       </thead>
       <tbody>
         <tr
-          v-for="item in selectedSubjects"
+          v-for="(item,index) in selectedSubjects"
           :key="item.id"
         >
+          <td>{{ index+1 }}</td>
           <td>{{ item.subject.name }}</td>
           <td class="text-center">
             {{ item.grade }}

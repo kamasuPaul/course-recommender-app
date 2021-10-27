@@ -3,6 +3,7 @@
     <template v-slot:default>
       <thead>
         <tr>
+          <th>No.</th>
           <th class="text-uppercase">
             Subject
           </th>
@@ -19,9 +20,10 @@
       </thead>
       <tbody>
         <tr
-          v-for="item in selectedSubjects"
+          v-for="(item,index) in selectedSubjects"
           :key="item.subject_id"
         >
+          <td>{{ index+1 }}</td>
           <td>{{ item.subject_name }}</td>
           <td class="text-center">
             {{ item.grade }}
