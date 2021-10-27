@@ -1,250 +1,265 @@
 <template>
-  <v-card id="account-setting-card">
-    <v-stepper
-      v-model="e1"
-      alt-labels
-    >
-      <v-stepper-header>
-        <v-stepper-step
-          :complete="e1 > 1"
-          step="1"
-        >
-          O level results
-        </v-stepper-step>
-
+  <v-container>
+    <v-card id="account-setting-card">
+      <v-card-title>Submit new results</v-card-title>
+      <v-card-text>
+        Submit your O and A level results, and once saved they will appear under saved results
+      </v-card-text>
+      <v-card-text>
         <v-divider></v-divider>
-
-        <v-stepper-step
-          :complete="e1 > 2"
-          step="2"
-        >
-          A level results
-        </v-stepper-step>
-
-        <v-divider></v-divider>
-
-        <v-stepper-step step="3">
-          Gender
-        </v-stepper-step>
-      </v-stepper-header>
-
-      <v-stepper-items>
-        <v-stepper-content step="1">
-          <v-card
-            class="mb-12"
-            color="grey lighten-1"
+      </v-card-text>
+      <v-stepper
+        v-model="e1"
+        alt-labels
+      >
+        <v-stepper-header>
+          <v-stepper-step
+            :complete="e1 > 1"
+            step="1"
           >
-            <v-form class="multi-col-validation mt-6">
-              <v-row>
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-select
-                    v-model="subject_id"
-                    :items="o_subjects"
-                    filled
-                    label="Subject"
-                    item-text="name"
-                    item-value="id"
-                  ></v-select>
-                </v-col>
+            O level results
+          </v-stepper-step>
 
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-select
-                    v-model="grade"
-                    :items="o_grades"
-                    filled
-                    label="Grade"
-                  ></v-select>
-                </v-col>
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-btn
-                    dense
-                    outlined
-                    :disabled="disabled"
-                    @click="addOSubject"
-                  >
-                    Add subject
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <OLevelResults
-                    :selected-subjects="selected_olevel_subjects"
-                    @removeItem="removeSubject($event)"
-                  ></OLevelResults>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card>
-          <v-btn
-            color="primary"
-            @click="e1 = 2"
-          >
-            Continue
-          </v-btn>
-        </v-stepper-content>
+          <v-divider></v-divider>
 
-        <v-stepper-content step="2">
-          <v-card
-            class="mb-12"
-            color="grey lighten-1"
+          <v-stepper-step
+            :complete="e1 > 2"
+            step="2"
           >
-            <v-form class="multi-col-validation mt-6">
-              <v-row>
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-select
-                    v-model="a_subject_id"
-                    :items="a_subjects"
-                    filled
-                    label="Subject"
-                    item-text="name"
-                    item-value="id"
-                  ></v-select>
-                </v-col>
+            A level results
+          </v-stepper-step>
 
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-select
-                    v-model="a_grade"
-                    :items="a_grades"
-                    filled
-                    label="Grade"
-                  ></v-select>
-                </v-col>
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-btn
-                    dense
-                    outlined
-                    :disabled="disabledA"
-                    @click="addASubject"
-                  >
-                    Add subject
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <ALevelResults
-                    :selected-subjects="selected_alevel_subjects"
-                    @removeItem="removeASubject($event)"
-                  ></ALevelResults>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card>
-          <v-btn
-            text
-            @click="e1 = 1"
-          >
-            Back
-          </v-btn>
-          <v-btn
-            color="primary"
-            @click="e1 = 3"
-          >
-            Continue
-          </v-btn>
-        </v-stepper-content>
+          <v-divider></v-divider>
 
-        <v-stepper-content step="3">
-          <v-card
-            class="mb-12 center"
-            color="grey lighten-1"
-          >
-            <v-item-group mandatory>
-              <v-container>
-                <v-row justify="center">
+          <v-stepper-step step="3">
+            Gender
+          </v-stepper-step>
+        </v-stepper-header>
+
+        <v-stepper-items>
+          <v-stepper-content step="1">
+            <v-card
+              class="mb-12"
+              color="grey lighten-1"
+            >
+              <v-form class="multi-col-validation mt-6">
+                <v-row>
                   <v-col
-                    cols="4"
+                    md="4"
+                    cols="12"
                   >
-                    <v-item @click="gender= !gender" v-slot="{ active, toggle }">
-                      <v-card
-                        :color="active ? 'primary' : ''"
-                        class="d-flex align-center"
-                        dark
-                        height="200"
-                        @click="toggle"
-                      >
-                        <v-scroll-y-transition>
-                          <div
-                            v-if="active"
-                            class="text-h2 flex-grow-1 text-center"
-                          >
-                            Male
-                          </div>
-                        </v-scroll-y-transition>
-                      </v-card>
-                    </v-item>
+                    <v-select
+                      v-model="subject_id"
+                      :items="o_subjects"
+                      filled
+                      label="Subject"
+                      item-text="name"
+                      item-value="id"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col
+                    md="4"
+                    cols="12"
+                  >
+                    <v-select
+                      v-model="grade"
+                      :items="o_grades"
+                      filled
+                      label="Grade"
+                    ></v-select>
                   </v-col>
                   <v-col
-                    cols="4"
+                    md="4"
+                    cols="12"
                   >
-                    <v-item v-slot="{ active, toggle }">
-                      <v-card
-                        :color="active ? 'primary' : ''"
-                        class="d-flex align-center"
-                        dark
-                        height="200"
-                        @click="toggle"
-                      >
-                        <v-scroll-y-transition>
-                          <div
-                            v-if="active"
-                            class="text-h2 flex-grow-1 text-center"
-                          >
-                            Female
-                          </div>
-                        </v-scroll-y-transition>
-                      </v-card>
-                    </v-item>
+                    <v-btn
+                      dense
+                      outlined
+                      :disabled="disabled"
+                      @click="addOSubject"
+                    >
+                      Add subject
+                    </v-btn>
                   </v-col>
                 </v-row>
-              </v-container>
-            </v-item-group>
-          </v-card>
-          <v-btn
-            text
-            @click="e1 = 2"
-          >
-            Back
-          </v-btn>
-          <v-btn
-            color="primary"
-            @click="e1 = 1"
-          >
-            Submit
-          </v-btn>
-        </v-stepper-content>
-      </v-stepper-items>
-    </v-stepper>
-  </v-card>
+                <v-row>
+                  <v-col>
+                    <OLevelResults
+                      :selected-subjects="selected_olevel_subjects"
+                      @removeItem="removeSubject($event)"
+                    ></OLevelResults>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-card>
+            <v-btn
+              color="primary"
+              @click="e1 = 2"
+            >
+              Next
+            </v-btn>
+          </v-stepper-content>
+
+          <v-stepper-content step="2">
+            <v-card
+              class="mb-12"
+              color="grey lighten-1"
+            >
+              <v-form class="multi-col-validation mt-6">
+                <v-row>
+                  <v-col
+                    md="4"
+                    cols="12"
+                  >
+                    <v-select
+                      v-model="a_subject_id"
+                      :items="a_subjects"
+                      filled
+                      label="Subject"
+                      item-text="name"
+                      item-value="id"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col
+                    md="4"
+                    cols="12"
+                  >
+                    <v-select
+                      v-model="a_grade"
+                      :items="a_grades"
+                      filled
+                      label="Grade"
+                    ></v-select>
+                  </v-col>
+                  <v-col
+                    md="4"
+                    cols="12"
+                  >
+                    <v-btn
+                      dense
+                      outlined
+                      :disabled="disabledA"
+                      @click="addASubject"
+                    >
+                      Add subject
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <ALevelResults
+                      :selected-subjects="selected_alevel_subjects"
+                      @removeItem="removeASubject($event)"
+                    ></ALevelResults>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-card>
+            <v-btn
+              text
+              @click="e1 = 1"
+            >
+              Back
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="e1 = 3"
+            >
+              Next
+            </v-btn>
+          </v-stepper-content>
+
+          <v-stepper-content step="3">
+            <v-card
+              class="mb-12 center"
+              color="grey lighten-1"
+            >
+              <v-item-group mandatory>
+                <v-container>
+                  <v-row justify="center">
+                    <v-col
+                      cols="4"
+                    >
+                      <v-item
+                        v-slot="{ active, toggle }"
+                        @click="gender= !gender"
+                      >
+                        <v-card
+                          :color="active ? 'primary' : ''"
+                          class="d-flex align-center"
+                          dark
+                          height="200"
+                          @click="toggle"
+                        >
+                          <v-scroll-y-transition>
+                            <div
+                              v-if="active"
+                              class="text-h2 flex-grow-1 text-center"
+                            >
+                              Male
+                            </div>
+                          </v-scroll-y-transition>
+                        </v-card>
+                      </v-item>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                    >
+                      <v-item v-slot="{ active, toggle }">
+                        <v-card
+                          :color="active ? 'primary' : ''"
+                          class="d-flex align-center"
+                          dark
+                          height="200"
+                          @click="toggle"
+                        >
+                          <v-scroll-y-transition>
+                            <div
+                              v-if="active"
+                              class="text-h2 flex-grow-1 text-center"
+                            >
+                              Female
+                            </div>
+                          </v-scroll-y-transition>
+                        </v-card>
+                      </v-item>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-item-group>
+            </v-card>
+            <v-btn
+              text
+              @click="e1 = 2"
+            >
+              Back
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="e1 = 1"
+            >
+              Submit
+            </v-btn>
+          </v-stepper-content>
+        </v-stepper-items>
+      </v-stepper>
+    </v-card>
+    <SavedResults></SavedResults>
+  </v-container>
 </template>
 
 <script>
 import OLevelResults from './OLevelResults.vue'
 import ALevelResults from './ALevelResults.vue'
+import SavedResults from './SavedResults.vue'
 
 export default {
   components: {
     OLevelResults,
     ALevelResults,
+    SavedResults,
   },
   data() {
     return {
