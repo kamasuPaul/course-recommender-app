@@ -107,7 +107,6 @@
 <script>
 // eslint-disable-next-line object-curly-newline
 import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
-import { ref } from '@vue/composition-api'
 
 const socialLink = [
   {
@@ -151,8 +150,6 @@ export default {
           email: '',
           password: '',
         },
-        remember: false,
-
         errors: {},
         remember: false,
         fetchUser: true,
