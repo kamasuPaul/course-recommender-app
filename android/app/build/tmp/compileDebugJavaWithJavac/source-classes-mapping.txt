@@ -1,0 +1,4 @@
+com/courserecommender/app/BuildConfig.java
+ com.courserecommender.app.BuildConfig
+com/courserecommender/app/MainActivity.java
+ com.courserecommender.app.MainActivity
