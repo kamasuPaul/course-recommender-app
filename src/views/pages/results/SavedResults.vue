@@ -54,7 +54,10 @@
                 </v-card-title>
               </v-tab-item>
             </v-tabs>
-            <v-btn color="primary mt-3 mb-3">
+            <v-btn
+              :to="{name:'results-eligible', params:{id: item.id}}"
+              color="primary mt-3 mb-3"
+            >
               CALCULATE WEIGHTS
             </v-btn>
           </v-card>
