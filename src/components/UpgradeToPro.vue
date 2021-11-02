@@ -11,7 +11,7 @@
     left
     nudge-top="15"
   >
-    <template #activator="{ on, attrs }">
+    <!-- <template #activator="{ on, attrs }">
       <v-btn
         color="error"
         class="product-upgrade-to-pro"
@@ -23,7 +23,7 @@
       >
         Donate
       </v-btn>
-    </template>
+    </template> -->
 
     <v-card
       class="elevation-0"
