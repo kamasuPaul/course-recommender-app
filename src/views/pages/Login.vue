@@ -14,13 +14,13 @@
               class="me-3"
             ></v-img>
 
-            <h2 class="text-2xl font-weight-semibold">Course Recommender</h2>
+            <h2 class="text-2xl font-weight-semibold">Recommender</h2>
           </router-link>
         </v-card-title>
 
         <!-- title -->
         <v-card-text>
-          <p class="text-2xl font-weight-semibold text--primary mb-2">Welcome come back! 👋🏻</p>
+          <p class="d-flex text-xl font-weight-semibold text--primary mb-2 align-center justify-center">Hi, welcome come back! 👋🏻</p>
           <p class="mb-2">Please sign-in to your account and start the adventure</p>
         </v-card-text>
 

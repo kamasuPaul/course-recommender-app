@@ -139,7 +139,10 @@
       <v-divider class="my-2"></v-divider>
 
       <!-- Logout -->
-      <v-list-item link>
+      <v-list-item
+        link
+        @click="logout"
+      >
         <v-list-item-icon class="me-2">
           <v-icon size="22">
             {{ icons.mdiLogoutVariant }}
@@ -179,6 +182,17 @@ export default {
         mdiLogoutVariant,
       },
     }
+  },
+  methods: {
+    /** logout */
+    logout() {
+      this.$auth
+        .logout({
+          url: '/logout',
+          makeRequest: false,
+          redirect: { name: 'auth-login' },
+        })
+    },
   },
 }
 </script>
