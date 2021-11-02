@@ -62,7 +62,7 @@ export default {
       headers: [
         { text: 'PROGRAMME', value: 'name' },
         { text: 'CODE', value: 'alias_code' },
-        { text: 'WEIGHT', value: 'alias_code' },
+        { text: 'WEIGHT', value: 'weight' },
         { text: 'CAMPUS', value: 'campus.name' },
         { text: 'TUITION FEES', value: 'tuition_fees' },
         { text: 'DURATION', value: 'years' },
@@ -81,11 +81,17 @@ export default {
     fetchEligibleProgrammes() {
       this.loading = true
       console.log(this.resultId)
+      const parameters = {
+        result: 1,
+        gender: 'male',
+      }
       this.$http
-        .get('/courses')
+        .get('/courses/eligble', {
+          params: parameters,
+        })
         .then(res => {
-          console.log(res.data[0])
-          this.programmes = res.data
+          const progs = res.data.sort((a, b) => (b.weight - a.weight))
+          this.programmes = progs
         })
         .finally(() => {
           this.loading = false
