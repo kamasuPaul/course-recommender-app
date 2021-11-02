@@ -11,6 +11,15 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/Dashboard.vue'),
+
+    // add meta to route
+    meta: {
+      // add title
+      title: 'Dashboard',
+
+      // add icon
+      icon: 'dashboard',
+    },
   },
   {
     path: '/typography',
@@ -94,10 +103,16 @@ const routes = [
   },
 ]
 
-Vue.router = new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
 })
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Course recommender'
+  next()
+})
+
+Vue.router = router
 
 export default Vue.router

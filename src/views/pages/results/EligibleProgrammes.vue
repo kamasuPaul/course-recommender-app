@@ -80,7 +80,8 @@ export default {
   methods: {
     fetchEligibleProgrammes() {
       this.loading = true
-      console.log(this.resultId)
+
+      // console.log(this.resultId)
       const parameters = {
         result: 1,
         gender: 'male',

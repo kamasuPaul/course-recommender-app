@@ -89,7 +89,6 @@ export default {
       this.$http
         .get('/universities')
         .then(res => {
-          console.log(res.data[0])
           this.programmes = res.data
         })
         .finally(() => {
