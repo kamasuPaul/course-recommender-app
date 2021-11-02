@@ -157,6 +157,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import {
   mdiAccountOutline,
   mdiEmailOutline,
@@ -189,8 +191,11 @@ export default {
       this.$auth
         .logout({
           url: '/logout',
-          makeRequest: false,
+          makeRequest: true,
           redirect: { name: 'auth-login' },
+        })
+        .then(() => {
+          axios.defaults.headers.common.Authorization = null
         })
     },
   },
