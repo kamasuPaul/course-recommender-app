@@ -11,6 +11,20 @@ const drivers = {
   router: driverRouterVueRouter,
 }
 Vue.use(drivers)
+
+// const authOptions = {
+//   authRedirect:'/',
+//   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+//   http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
+//   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+//   token: [{request: 'token', response: 'token', authType: 'bearer', foundIn: 'header'}],
+//   tokenName:'token',
+//   loginData: {url: 'api/auth', method: 'POST', redirect: 'dashboard'},
+//   logoutData: {url: 'api/logout', method: 'POST', redirect: 'login',  makeRequest: false},
+//   fetchData: {url: 'api/account', method: 'GET' , authType: 'bearer'},
+//   refreshData: {enabled: false},
+//   rolesVar: 'role_id'
+// };
 Vue.use(auth, {
   plugins: {
     http: Vue.axios,
@@ -22,7 +36,11 @@ Vue.use(auth, {
     router: driverRouterVueRouter,
   },
   options: {
-    rolesKey: 'type',
-    notFoundRedirect: { name: 'user-account' },
+    notFoundRedirect: { name: 'error-404' },
+    tokenDefaultKey: 'token',
+    tokenName: 'token',
+    fetchData: { url: 'me', method: 'GET', authType: 'bearer' },
+    refreshData: { enabled: false },
   },
+
 })
