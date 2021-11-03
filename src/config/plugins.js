@@ -36,7 +36,7 @@ Vue.use(auth, {
     router: driverRouterVueRouter,
   },
   options: {
-    notFoundRedirect: { name: 'error-404' },
+    notFoundRedirect: { name: 'dashboard' },
     tokenDefaultKey: 'token',
     tokenName: 'token',
     fetchData: { url: 'me', method: 'GET', authType: 'bearer' },
