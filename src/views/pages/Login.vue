@@ -218,7 +218,7 @@ export default {
         .login({
           url: '/login',
           data: this.form.body,
-          redirect: { name: 'dashboard' },
+          redirect: null,
           remember: this.form.remember ? '{"name": "Redirect"}' : null,
           fetchUser: false,
           staySignedIn: true,
@@ -226,9 +226,11 @@ export default {
 
         // on success store axios token in store
         .then(res => {
-          const token = `Bearer ${res.data.data.token}`
+          const { token } = res.data.data
           // eslint-disable-next-line dot-notation
-          axios.defaults.headers.common['Authorization'] = token
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          this.$auth.token(null, token, true)
+          this.$router.push({ name: 'dashboard' })
         })
         .then(null, res => {
           this.errors(res.response)
