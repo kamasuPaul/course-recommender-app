@@ -4,7 +4,10 @@
       <v-card class="auth-card">
         <!-- logo -->
         <v-card-title class="d-flex align-center justify-center py-7">
-          <router-link to="/" class="d-flex align-center">
+          <router-link
+            to="/"
+            class="d-flex align-center"
+          >
             <v-img
               :src="require('@/assets/images/logos/logo.svg')"
               max-height="30px"
@@ -14,14 +17,20 @@
               class="me-3"
             ></v-img>
 
-            <h2 class="text-2xl font-weight-semibold">Recommender</h2>
+            <h2 class="text-2xl font-weight-semibold">
+              Recommender
+            </h2>
           </router-link>
         </v-card-title>
 
         <!-- title -->
         <v-card-text>
-          <p class="d-flex text-xl font-weight-semibold text--primary mb-2 align-center justify-center">University starts here 🚀</p>
-          <p class="mb-2">Make your university registeration easy and fun!</p>
+          <p class="d-flex text-xl font-weight-semibold text--primary mb-2 align-center justify-center">
+            University starts here 🚀
+          </p>
+          <p class="mb-2">
+            Make your university registeration easy and fun!
+          </p>
         </v-card-text>
 
         <!-- login form -->
@@ -67,7 +76,10 @@
               @click:append="isPasswordVisible = !isPasswordVisible"
             ></v-text-field>
 
-            <v-checkbox hide-details class="mt-1">
+            <v-checkbox
+              hide-details
+              class="mt-1"
+            >
               <template #label>
                 <div class="d-flex align-center flex-wrap">
                   <span class="me-2">I agree to</span><a href="javascript:void(0)">privacy policy &amp; terms</a>
@@ -75,14 +87,24 @@
               </template>
             </v-checkbox>
 
-            <v-btn @click="register" block color="primary" class="mt-6" :loading="loading"> Sign Up </v-btn>
+            <v-btn
+              block
+              color="primary"
+              class="mt-6"
+              :loading="loading"
+              @click="register"
+            >
+              Sign Up
+            </v-btn>
           </v-form>
         </v-card-text>
 
         <!-- create new account  -->
         <v-card-text class="d-flex align-center justify-center flex-wrap mt-2">
           <span class="me-2"> Already have an account? </span>
-          <router-link :to="{ name: 'auth-login' }"> Sign in instead </router-link>
+          <router-link :to="{ name: 'auth-login' }">
+            Sign in instead
+          </router-link>
         </v-card-text>
 
         <!-- divider -->
@@ -94,7 +116,12 @@
 
         <!-- social link -->
         <v-card-actions class="d-flex justify-center">
-          <v-btn v-for="link in socialLink" :key="link.icon" icon class="ms-1">
+          <v-btn
+            v-for="link in socialLink"
+            :key="link.icon"
+            icon
+            class="ms-1"
+          >
             <v-icon :color="$vuetify.theme.dark ? link.colorInDark : link.color">
               {{ link.icon }}
             </v-icon>
@@ -111,16 +138,27 @@
     />
 
     <!-- tree -->
-    <v-img class="auth-tree" width="247" height="185" src="@/assets/images/misc/tree.png"></v-img>
+    <v-img
+      class="auth-tree"
+      width="247"
+      height="185"
+      src="@/assets/images/misc/tree.png"
+    ></v-img>
 
     <!-- tree  -->
-    <v-img class="auth-tree-3" width="377" height="289" src="@/assets/images/misc/tree-3.png"></v-img>
+    <v-img
+      class="auth-tree-3"
+      width="377"
+      height="289"
+      src="@/assets/images/misc/tree-3.png"
+    ></v-img>
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line object-curly-newline
 import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
+import axios from 'axios'
 
 // import { ref } from '@vue/composition-api'
 const socialLink = [
@@ -170,9 +208,9 @@ export default {
 
         errors: {},
         remember: false,
-        fetchUser: true,
+        fetchUser: false,
         autoLogin: true,
-        staySignedIn: false,
+        staySignedIn: true,
       },
     }
   },
@@ -186,11 +224,26 @@ export default {
         .register({
           data: this.form.body, // Axios
           url: '/register', // URL
-          redirect: { name: 'dashboard' },
-          remember: this.form.remember ? '{"name": "Redirect"}' : null,
+          redirect: null,
+          remember: true, // this.form.remember ? '{"name": "Redirect"}' : null,
           fetchUser: this.form.fetchUser,
-          autoLogin: this.form.autoLogin,
+
+          // autoLogin: this.form.autoLogin,
           staySignedIn: this.form.staySignedIn,
+        })
+        .then(res => {
+          const { token } = res.data.data
+          // eslint-disable-next-line dot-notation
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          this.$auth.token(null, token, true)
+          this.$auth
+            .user({
+              id: 1,
+              first_name: this.form.body.name,
+              email: this.form.body.email,
+              type: 'user',
+            })
+          this.$router.push({ name: 'dashboard' })
         })
         .then(null, res => {
           this.errors(res.response)
