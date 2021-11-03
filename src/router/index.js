@@ -11,14 +11,9 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/Dashboard.vue'),
-
-    // add meta to route
     meta: {
-      // add title
       title: 'Dashboard',
-
-      // add icon
-      icon: 'dashboard',
+      auth: true,
     },
   },
   {
@@ -29,6 +24,9 @@ const routes = [
   {
     path: '/icons',
     name: 'icons',
+    meta: {
+      auth: true,
+    },
     component: () => import('@/views/icons/Icons.vue'),
   },
   {
@@ -54,21 +52,33 @@ const routes = [
   {
     path: '/results',
     name: 'results',
+    meta: {
+      auth: true,
+    },
     component: () => import('@/views/pages/results/ResultsList.vue'),
   },
   {
     path: '/results/:id/eligible',
     name: 'results-eligible',
+    meta: {
+      auth: true,
+    },
     component: () => import('@/views/pages/results/EligibleProgrammes.vue'),
   },
   {
     path: '/universities',
     name: 'universities',
+    meta: {
+      auth: true,
+    },
     component: () => import('@/views/pages/universities/Universities.vue'),
   },
   {
     path: '/about',
     name: 'about',
+    meta: {
+      auth: true,
+    },
     component: () => import('@/views/cards/Card.vue'),
   },
   {
