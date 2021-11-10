@@ -20,6 +20,9 @@
       show-expand
       class="elevation-1"
     >
+      <template #item.index="{ item }">
+        {{ results.indexOf(item)+1 }}
+      </template>
       <template v-slot:expanded-item="{ headers,item }">
         <td :colspan="headers.length">
           <v-card>
@@ -89,6 +92,12 @@ export default {
     return {
       expanded: [],
       resultHeaders: [
+        {
+          text: '#',
+          align: 'start',
+          sortable: false,
+          value: 'index',
+        },
         {
           text: 'userId',
           align: 'start',
