@@ -247,7 +247,10 @@
         </v-stepper-items>
       </v-stepper>
     </v-card>
-    <SavedResults></SavedResults>
+    <SavedResults
+      :results="results"
+      :loading="loading"
+    ></SavedResults>
   </v-container>
 </template>
 
@@ -264,6 +267,7 @@ export default {
   },
   data() {
     return {
+      results: [],
       e1: 1,
       subject_id: null,
       grade: null,
@@ -278,6 +282,7 @@ export default {
       selected_alevel_subjects: [],
       gender: true,
       submitLoading: false,
+      loading: true,
     }
   },
   computed: {
@@ -290,6 +295,7 @@ export default {
   },
   mounted() {
     this.fetchSubjects()
+    this.fetchSavedResults()
   },
   methods: {
     addOSubject() {
@@ -355,6 +361,7 @@ export default {
     },
     submitResults() {
       this.submitLoading = true
+      this.loading = true
       const data = {
         o_level_subjects: this.selected_olevel_subjects,
         a_level_subjects: this.selected_alevel_subjects,
@@ -363,12 +370,26 @@ export default {
       this.$http.post('/results', data)
         .then(response => {
           console.log(response)
+          this.fetchSavedResults()
         })
         .catch(error => {
           console.log(error)
         })
         .finally(() => {
           this.submitLoading = false
+          this.loading = false
+        })
+    },
+    fetchSavedResults() {
+      const user = this.$auth.user()
+      this.loading = true
+      this.$http.get(`/users/${user.id}/results`)
+        .then(res => {
+          const resultsData = res.data
+          this.results = resultsData
+        })
+        .finally(() => {
+          this.loading = false
         })
     },
   },

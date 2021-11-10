@@ -75,10 +75,19 @@ export default {
   components: {
     DisplaySubjectList,
   },
+  props: {
+    results: {
+      type: Array,
+      default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       expanded: [],
-      loading: true,
       resultHeaders: [
         {
           text: 'userId',
@@ -91,7 +100,6 @@ export default {
         { text: 'Gender', value: 'user_id' },
         { text: '', value: 'data-table-expand' },
       ],
-      results: [],
       tab: null,
       tab2: null,
       items: ['O LEVEL', 'A LEVEL', 'GENDER'],
@@ -100,9 +108,6 @@ export default {
       o_level_results: [],
     }
   },
-  created() {
-    this.fetchSavedResults()
-  },
   methods: {
     getLevelSubjects(resultId, level) {
       const result = this.results.find(x => x.id === resultId)
@@ -110,18 +115,7 @@ export default {
 
       return subjects
     },
-    fetchSavedResults() {
-      const user = this.$auth.user()
-      this.loading = true
-      this.$http.get(`/users/${user.id}/results`)
-        .then(res => {
-          const resultsData = res.data
-          this.results = resultsData
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    },
+
   },
 }
 </script>
