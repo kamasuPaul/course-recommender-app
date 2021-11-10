@@ -42,6 +42,9 @@
           :search="search"
           disable-sort
         >
+          <template #item.index="{ item }">
+            {{ programmes.indexOf(item)+1 }}
+          </template>
         </v-data-table>
       </v-card>
     </v-col>
@@ -60,6 +63,7 @@ export default {
       loading: true,
       search: '',
       headers: [
+        { text: '#', value: 'index' },
         { text: 'PROGRAMME', value: 'name' },
         { text: 'CODE', value: 'alias_code' },
         { text: 'WEIGHT', value: 'weight' },
