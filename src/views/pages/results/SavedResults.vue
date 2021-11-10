@@ -111,8 +111,9 @@ export default {
       return subjects
     },
     fetchSavedResults() {
+      const user = this.$auth.user()
       this.loading = true
-      this.$http.get('/results')
+      this.$http.get(`/users/${user.id}/results`)
         .then(res => {
           const resultsData = res.data
           this.results = resultsData
