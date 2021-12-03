@@ -226,11 +226,24 @@ export default {
 
         // on success store axios token in store
         .then(res => {
+          // log the user from the respons
           const { token } = res.data.data
           // eslint-disable-next-line dot-notation
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
           this.$auth.token(null, token, true)
-          this.$router.push({ name: 'dashboard' })
+
+          // get the user from the api
+          this.$http.get('me').then(resp => {
+            const { data } = resp.data
+            this.$auth
+              .user({
+                id: data.id,
+                name: data.name,
+                email: data.email,
+                type: 'user',
+              })
+            this.$router.push({ name: 'dashboard' })
+          })
         })
         .then(null, res => {
           this.errors(res.response)
