@@ -45,8 +45,9 @@
           style="vertical-align:middle"
         >
           <span class="text--primary font-weight-semibold mb-n1">
-            kamasu paul
+            {{ user.name }}
           </span>
+          <small class="text--disabled text-capitalize">{{ user.email }}</small>
           <small class="text--disabled text-capitalize">Free account</small>
         </div>
       </div>
@@ -171,7 +172,7 @@ import {
 } from '@mdi/js'
 
 export default {
-  setup() {
+  data() {
     return {
       icons: {
         mdiAccountOutline,
@@ -183,7 +184,17 @@ export default {
         mdiHelpCircleOutline,
         mdiLogoutVariant,
       },
+      user: {
+        name: '',
+        email: '',
+        avatar: '',
+      },
     }
+  },
+  mounted() {
+    const user = this.$auth.user()
+    this.user.name = user.name
+    this.user.email = user.email
   },
   methods: {
     /** logout */
