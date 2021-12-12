@@ -102,6 +102,7 @@ export default {
   },
   methods: {
     fetchProgrammes() {
+      this.loading = true
       const { page, itemsPerPage } = this.options
       this.$http
         .get(`/courses?page=${page}&per_page=${itemsPerPage}`)
