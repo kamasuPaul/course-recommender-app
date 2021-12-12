@@ -14,6 +14,10 @@
     <v-data-table
       :headers="headers"
       :items="programmes"
+      :server-items-length="totalProgrammes"
+      :page-count="numberOfPages"
+      :options.sync="options"
+      :page.sync="page"
       item-key="id"
       class="table-rounded"
       :items-per-page="10"
@@ -78,18 +82,33 @@ export default {
     return {
       programmes: [],
       loading: true,
+      numberOfPages: 0,
+      totalProgrammes: 0,
       search: '',
+      page: 1,
+      options: {},
     }
+  },
+  watch: {
+    options: {
+      handler() {
+        this.fetchProgrammes()
+      },
+    },
+    deep: true,
   },
   created() {
     this.fetchProgrammes()
   },
   methods: {
     fetchProgrammes() {
+      const { page, itemsPerPage } = this.options
       this.$http
-        .get('/courses')
+        .get(`/courses?page=${page}&per_page=${itemsPerPage}`)
         .then(res => {
           this.programmes = res.data.data
+          this.totalProgrammes = res.data.total
+          this.numberOfPages = res.data.last_page
         })
         .finally(() => {
           this.loading = false
