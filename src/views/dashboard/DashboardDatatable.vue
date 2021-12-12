@@ -89,7 +89,7 @@ export default {
       this.$http
         .get('/courses')
         .then(res => {
-          this.programmes = res.data
+          this.programmes = res.data.data
         })
         .finally(() => {
           this.loading = false
