@@ -247,8 +247,6 @@ export default {
         })
         .then(null, res => {
           this.errors(res.response)
-        })
-        .finally(() => {
           this.loading = false
         })
     },

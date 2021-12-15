@@ -86,6 +86,7 @@
                 <v-btn
                   color="primary"
                   class="mt-6"
+                  target="_blank"
                   href="https://recommender.kamasupaul.com/contact-us/"
                 >
                   Contact Now

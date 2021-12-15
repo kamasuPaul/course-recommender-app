@@ -150,7 +150,14 @@
           </v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Logout</v-list-item-title>
+          <v-btn
+            :loading="logout_loading"
+            class="ma-1 outlined"
+            color="grey"
+            plain
+          >
+            Logout
+          </v-btn>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -189,6 +196,7 @@ export default {
         email: '',
         avatar: '',
       },
+      logout_loading: false,
     }
   },
   mounted() {
@@ -199,6 +207,7 @@ export default {
   methods: {
     /** logout */
     logout() {
+      this.logout_loading = true
       this.$auth
         .logout({
           url: '/logout',
@@ -207,6 +216,9 @@ export default {
         })
         .then(() => {
           axios.defaults.headers.common.Authorization = null
+        })
+        .finally(() => {
+          this.logout_loading = false
         })
     },
   },

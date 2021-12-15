@@ -75,7 +75,7 @@
             >Course recommender</a></span>
           <span class="d-sm-inline d-none">
             <a
-              href="/blog/"
+              href="https://recommender.kamasupaul.com/blog/"
               target="_blank"
               class="me-6 text--secondary text-decoration-none"
             >Blog</a>
