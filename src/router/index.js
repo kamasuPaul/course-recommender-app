@@ -79,7 +79,7 @@ const routes = [
     meta: {
       auth: true,
     },
-    component: () => import('@/views/cards/Card.vue'),
+    component: () => import('@/views/pages/about/About.vue'),
   },
   {
     path: '/login',
