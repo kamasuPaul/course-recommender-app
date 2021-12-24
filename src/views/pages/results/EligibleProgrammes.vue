@@ -45,6 +45,9 @@
           <template #item.index="{ item }">
             {{ programmes.indexOf(item)+1 }}
           </template>
+          <template #item.cutoff="{ item }">
+            {{ (programmes.indexOf(item)+1 == 10) ? 'N/A' : "--" }}
+          </template>
         </v-data-table>
       </v-card>
     </v-col>
@@ -58,7 +61,7 @@ export default {
   name: 'EligibleProgrammes',
   data() {
     return {
-      resultId: this.$route.query.id,
+      resultId: this.$route.params.id,
       programmes: [],
       loading: true,
       search: '',
@@ -67,6 +70,7 @@ export default {
         { text: 'PROGRAMME', value: 'name' },
         { text: 'CODE', value: 'alias_code' },
         { text: 'WEIGHT', value: 'weight' },
+        { text: 'CUTOFF', value: 'cutoff' },
         { text: 'CAMPUS', value: 'campus.name' },
         { text: 'TUITION FEES', value: 'tuition_fees' },
         { text: 'DURATION', value: 'years' },
@@ -84,10 +88,8 @@ export default {
   methods: {
     fetchEligibleProgrammes() {
       this.loading = true
-
-      // console.log(this.resultId)
       const parameters = {
-        result: 1,
+        result: this.resultId,
         gender: 'male',
       }
       this.$http
