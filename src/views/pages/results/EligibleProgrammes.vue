@@ -41,6 +41,7 @@
           :loading="loading"
           :search="search"
           disable-sort
+          @click:row="onClickRow"
         >
           <template #item.index="{ item }">
             {{ programmes.indexOf(item)+1 }}
@@ -103,6 +104,12 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    onClickRow(item) {
+      this.$router.push({
+        name: 'programme-details',
+        params: { id: item.id },
+      })
     },
   },
 
