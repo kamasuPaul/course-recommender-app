@@ -30,7 +30,7 @@
                         Campus
                       </v-list-item-title>
                       <v-list-item-subtitle>
-                        {{ program.campus.name}}
+                        {{ program.campus.name }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
@@ -70,9 +70,10 @@
             <v-row
               justify="start"
             >
-              <v-col>
+              <v-col
+                md="4"
+              >
                 <v-card
-                  max-width="300"
                   tile
                 >
                   <v-list dense>
@@ -92,9 +93,10 @@
                   </v-list>
                 </v-card>
               </v-col>
-              <v-col>
+              <v-col
+                md="4"
+              >
                 <v-card
-                  max-width="300"
                   tile
                 >
                   <v-list dense>
@@ -115,6 +117,26 @@
                 </v-card>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+              >
+                <v-card
+                  tile
+                >
+                  <v-data-table
+                    :headers="headers"
+                    :items="cuttoffPoints"
+                    item-key="id"
+                    class="table-rounded"
+                    :loading="loading"
+                    :search="search"
+                    disable-sort
+                  ></v-data-table>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </div>
@@ -125,14 +147,24 @@
 export default {
   data() {
     return {
+      headers: [
+        { text: 'Year', value: 'year' },
+        { text: 'Scheme', value: 'scheme' },
+        { text: 'Intake Year', value: 'intake_name' },
+        { text: 'Male points', value: 'male_points' },
+        { text: 'Female points', value: 'female_points' },
+        { text: 'Averae', value: 'average_points' },
+      ],
       programId: this.$route.params.id,
       program: {},
       loading: true,
+      cuttoffPoints: [],
     }
   },
   created() {
     this.fetchProgram()
     console.log(this.$route.params.id)
+    this.fetchCuttoffPoints()
   },
   methods: {
     fetchProgram() {
@@ -141,6 +173,19 @@ export default {
         .get(`/courses/${this.programId}`)
         .then(res => {
           this.program = res.data
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+
+    /* fetch cuttoff points for this course */
+    fetchCuttoffPoints() {
+      this.loading = true
+      this.$http
+        .get(`/points?filter[course_id]=${this.programId}`)
+        .then(res => {
+          this.cuttoffPoints = res.data.data
         })
         .finally(() => {
           this.loading = false
