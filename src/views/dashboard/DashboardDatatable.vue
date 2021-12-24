@@ -24,6 +24,7 @@
       :loading="loading"
       :search="search"
       disable-sort
+      @click:row="onClickRow"
     >
       <!-- name -->
       <template #[`item.full_name`]="{item}">
@@ -114,6 +115,12 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    onClickRow(item) {
+      this.$router.push({
+        name: 'programme-details',
+        params: { id: item.id },
+      })
     },
   },
 }

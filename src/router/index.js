@@ -66,6 +66,22 @@ const routes = [
     component: () => import('@/views/pages/results/EligibleProgrammes.vue'),
   },
   {
+    path: '/programmes',
+    name: 'programmes',
+    meta: {
+      auth: true,
+    },
+    component: () => import('@/views/pages/results/ResultsList.vue'),
+  },
+  {
+    path: '/programmes/:id',
+    name: 'programme-details',
+    meta: {
+      auth: true,
+    },
+    component: () => import('@/views/pages/programmes/ProgramDetailsPage.vue'),
+  },
+  {
     path: '/universities',
     name: 'universities',
     meta: {
