@@ -36,7 +36,7 @@
           :headers="headers"
           :items="programmes"
           item-key="id"
-          class="table-rounded"
+          class="table-rounded row-pointer"
           :items-per-page="10"
           :loading="loading"
           :search="search"
@@ -116,6 +116,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="css" scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
+}
 </style>
