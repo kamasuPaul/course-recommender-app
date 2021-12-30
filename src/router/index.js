@@ -90,6 +90,14 @@ const routes = [
     component: () => import('@/views/pages/universities/Universities.vue'),
   },
   {
+    path: '/schools',
+    name: 'schools',
+    meta: {
+      auth: true,
+    },
+    component: () => import('@/views/pages/schools/Schools.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
     meta: {

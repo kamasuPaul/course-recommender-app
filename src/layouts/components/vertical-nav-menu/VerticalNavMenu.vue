@@ -47,10 +47,15 @@
         :to="{ name: 'results'}"
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
-      <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>
+      <nav-menu-section-title title="MORE"></nav-menu-section-title>
       <nav-menu-link
         title="Universities"
         :to="{ name: 'universities' }"
+        :icon="icons.mdiSchoolOutline"
+      ></nav-menu-link>
+      <nav-menu-link
+        title="Schools"
+        :to="{ name: 'schools' }"
         :icon="icons.mdiAlphaTBoxOutline"
       ></nav-menu-link>
       <nav-menu-link
@@ -86,6 +91,7 @@ import {
   mdiFileOutline,
   mdiFormSelect,
   mdiAccountCogOutline,
+  mdiSchoolOutline,
 } from '@mdi/js'
 import NavMenuSectionTitle from './components/NavMenuSectionTitle.vue'
 import NavMenuLink from './components/NavMenuLink.vue'
@@ -112,6 +118,7 @@ export default {
         mdiFileOutline,
         mdiFormSelect,
         mdiAccountCogOutline,
+        mdiSchoolOutline,
       },
     }
   },
