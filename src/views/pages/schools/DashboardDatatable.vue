@@ -52,11 +52,11 @@ export default {
     return {
       headers: [
         { text: 'NAME', value: 'name' },
-        { text: 'ADDRESS', value: 'name' },
-        { text: 'DISTRICT', value: 'name' },
-        { text: 'WEBSITE', value: 'name' },
-        { text: 'EMAIL', value: 'tuition_fees' },
-        { text: 'TEL', value: 'years' },
+        { text: 'ADDRESS', value: 'address' },
+        { text: 'DISTRICT', value: 'district' },
+        { text: 'WEBSITE', value: 'website' },
+        { text: 'EMAIL', value: 'email' },
+        { text: 'TEL', value: 'phone' },
       ],
       status: {
         1: 'DAY',
