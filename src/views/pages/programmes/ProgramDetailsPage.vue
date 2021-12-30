@@ -29,7 +29,7 @@
                       <v-list-item-title>
                         Campus
                       </v-list-item-title>
-                      <v-list-item-subtitle>
+                      <v-list-item-subtitle v-if="program.campus">
                         {{ program.campus.name }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
@@ -68,16 +68,18 @@
               </v-col>
             </v-row>
             <v-row
+              v-if="program.essential_required||program.essential_optional"
               justify="start"
             >
               <v-col
+                v-if="program.essential_required.length > 0"
                 md="4"
               >
                 <v-card
                   tile
                 >
                   <v-list dense>
-                    <v-subheader>Required subjects</v-subheader>
+                    <v-subheader>Required subjects: Must have the following </v-subheader>
                     <v-list-item-group
                       color="primary"
                     >
@@ -94,13 +96,14 @@
                 </v-card>
               </v-col>
               <v-col
+                v-if="program.essential_optional.length > 0"
                 md="4"
               >
                 <v-card
                   tile
                 >
                   <v-list dense>
-                    <v-subheader>Relevant subjects</v-subheader>
+                    <v-subheader>Required subjects: {{ program.essential_relationship }} of </v-subheader>
                     <v-list-item-group
                       color="primary"
                     >
@@ -131,7 +134,6 @@
                     item-key="id"
                     class="table-rounded"
                     :loading="loading"
-                    :search="search"
                     disable-sort
                   ></v-data-table>
                 </v-card>
@@ -153,7 +155,7 @@ export default {
         { text: 'Intake Year', value: 'intake_name' },
         { text: 'Male points', value: 'male_points' },
         { text: 'Female points', value: 'female_points' },
-        { text: 'Averae', value: 'average_points' },
+        { text: 'Average', value: 'average_points' },
       ],
       programId: this.$route.params.id,
       program: {},
