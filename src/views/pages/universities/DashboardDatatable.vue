@@ -52,11 +52,12 @@ export default {
     return {
       headers: [
         { text: 'NAME', value: 'name' },
-        { text: 'WEBSITE', value: 'name' },
-        { text: 'PORTAL', value: 'campus.name' },
-        { text: 'EMAIL', value: 'tuition_fees' },
-        { text: 'TEL', value: 'years' },
-        { text: 'FAX', value: 'type' },
+        { text: 'OWNERSHIP', value: 'ownership' },
+        { text: 'WEBSITE', value: 'website' },
+        { text: 'PORTAL', value: 'portal_url' },
+        { text: 'EMAIL', value: 'email' },
+        { text: 'TEL', value: 'phone' },
+        { text: 'ZIP', value: 'zip' },
       ],
       status: {
         1: 'DAY',
