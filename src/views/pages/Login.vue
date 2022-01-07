@@ -26,7 +26,7 @@
         <!-- title -->
         <v-card-text>
           <p class="d-flex text-xl font-weight-semibold text--primary mb-2 align-center justify-center">
-            Hi, welcome come back! 👋🏻
+            Hi, welcome back! 👋🏻
           </p>
           <p class="mb-2">
             Please sign-in to your account and start the adventure

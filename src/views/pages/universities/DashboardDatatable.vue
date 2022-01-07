@@ -27,28 +27,31 @@
           <span class="d-block font-weight-semibold text--primary text-truncate">{{ item.name }}</span>
         </div>
       </template>
-      <template #[`item.tuition_fees`]>
-        --
+      <template #[`item.website`]="{item}">
+        <div class="d-flex flex-column">
+          <a
+            :href="'https://'+item.website"
+            target="_blank"
+            class="d-block font-weight-semibold text--primary text-truncate"
+          >{{ item.website }}</a>
+        </div>
+      </template>
+      <template #[`item.portal_url`]="{item}">
+        <div class="d-flex flex-column">
+          <a
+            :href="item.portal_url"
+            target="_blank"
+            class="d-block font-weight-semibold text--primary text-truncate"
+          >{{ item.portal_url }}</a>
+        </div>
       </template>
     </v-data-table>
   </v-card>
 </template>
 
 <script>
-import { mdiSquareEditOutline, mdiDotsVertical } from '@mdi/js'
-
 export default {
   setup() {
-    const statusColor = {
-      /* eslint-disable key-spacing */
-      DAY: 'primary',
-      EVENNING: 'success',
-      AFTERNOON: 'error',
-      EXTERNAL: 'warning',
-      SPECIAL: 'info',
-      /* eslint-enable key-spacing */
-    }
-
     return {
       headers: [
         { text: 'NAME', value: 'name' },
@@ -59,20 +62,6 @@ export default {
         { text: 'TEL', value: 'phone' },
         { text: 'ZIP', value: 'zip' },
       ],
-      status: {
-        1: 'DAY',
-        2: 'EVENNING',
-        3: 'AFTERNOON',
-        4: 'EXTERNAL',
-        5: 'SPECIAL',
-      },
-      statusColor,
-
-      // icons
-      icons: {
-        mdiSquareEditOutline,
-        mdiDotsVertical,
-      },
     }
   },
   data() {
