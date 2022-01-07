@@ -256,6 +256,24 @@
       :results="results"
       :loading="loading"
     ></SavedResults>
+    <v-snackbar
+      v-model="snackbar"
+      class="float-right"
+      timeout="-1"
+    >
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -272,6 +290,8 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
+      snackbarText: '',
       results: [],
       e1: 1,
       subject_id: null,
@@ -385,6 +405,8 @@ export default {
         })
         .catch(error => {
           console.log(error)
+          this.snackbarText = error.response.data.message
+          this.snackbar = true
         })
         .finally(() => {
           this.submitLoading = false
