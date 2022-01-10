@@ -127,75 +127,98 @@
           </v-stepper-content>
 
           <v-stepper-content step="2">
-            <v-card
-              class="mb-12"
-              color="grey lighten-1"
-            >
-              <v-form class="multi-col-validation mt-6">
-                <v-row>
-                  <v-col
-                    md="4"
-                    cols="12"
-                  >
-                    <v-select
-                      v-model="a_subject_id"
-                      :items="a_subjects"
-                      filled
-                      label="Subject"
-                      item-text="name"
-                      item-value="id"
-                    ></v-select>
-                  </v-col>
-
-                  <v-col
-                    md="4"
-                    cols="12"
-                  >
-                    <v-select
-                      v-model="a_grade"
-                      :items="a_grades"
-                      filled
-                      label="Grade"
-                    ></v-select>
-                  </v-col>
-                  <v-col
-                    md="4"
-                    cols="12"
-                  >
-                    <v-btn
-                      dense
-                      outlined
-                      :disabled="disabledA"
-                      @click="addASubject"
-                    >
-                      Add subject
-                    </v-btn>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <ALevelResults
-                      v-if="selected_alevel_subjects.length > 0"
-                      :selected-subjects="selected_alevel_subjects"
-                      @removeItem="removeASubject($event)"
-                    ></ALevelResults>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-card>
-            <v-btn
-              text
-              @click="e1 = 1"
-            >
-              Back
-            </v-btn>
-            <v-btn
-              color="primary"
-              :disabled="stepAlevelValid"
-              @click="e1 = 3"
-            >
-              Next: Gender
-            </v-btn>
+            <v-row>
+              <v-col
+                md="12"
+              >
+                <v-form class="multi-col-validation mt-6">
+                  <v-simple-table>
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th class="text-uppercase">
+                          Subject
+                        </th>
+                        <th class="text-center text-uppercase">
+                          Grade
+                        </th>
+                        <th class="text-center text-uppercase">
+                          Subject code
+                        </th>
+                        <th class="text-center text-uppercase">
+                          #
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item,index) in selected_alevel_subjects"
+                        :key="item.subject_id"
+                      >
+                        <td>{{ index+1 }}</td>
+                        <td>
+                          <v-select
+                            v-model="item.subject_id"
+                            :items="a_subjects"
+                            filled
+                            label="Subject"
+                            item-text="name"
+                            item-value="id"
+                          ></v-select>
+                        </td>
+                        <td class="text-center">
+                          <v-select
+                            v-model="item.grade"
+                            :items="a_grades"
+                            filled
+                            label="Grade"
+                          ></v-select>
+                        </td>
+                        <td class="text-center">
+                          {{ item.code }}
+                        </td>
+                        <td class="text-center">
+                          <span v-if="item.removable">
+                            <v-tooltip bottom>
+                              <template
+                                v-slot:activator="{ on, attrs }"
+                              >
+                                <v-icon
+                                  size="30"
+                                  v-bind="attrs"
+                                  @click="removeASubject(item.subject_id)"
+                                  v-on="on"
+                                >
+                                  {{ icons.mdiCloseCircleOutline }}
+                                </v-icon>
+                              </template>
+                              <span>Remove subject</span>
+                            </v-tooltip>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
+                </v-form>
+              </v-col>
+            </v-row>
+            <v-row class="mt-6">
+              <v-col>
+                <v-btn
+                  text
+                  @click="e1 = 1"
+                >
+                  Back
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  :disabled="!stepAlevelValid"
+                  @click="e1 = 3"
+                >
+                  Next: Gender
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-stepper-content>
 
           <v-stepper-content step="3">
@@ -302,12 +325,10 @@
 
 <script>
 import { mdiCloseCircleOutline } from '@mdi/js'
-import ALevelResults from './ALevelResults.vue'
 import SavedResults from './SavedResults.vue'
 
 export default {
   components: {
-    ALevelResults,
     SavedResults,
   },
   data() {
@@ -332,8 +353,16 @@ export default {
         },
       ],
       a_subjects: [],
-      a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P'],
-      selected_alevel_subjects: [],
+      a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P', '1', '0'],
+      selected_alevel_subjects: [
+        {
+          subject_id: this.subject_id,
+          grade: this.grade,
+          subject_name: '',
+          code: '----',
+          removable: false,
+        },
+      ],
       gender: true,
       submitLoading: false,
       loading: true,
@@ -350,10 +379,10 @@ export default {
       return this.a_subject_id == null || this.a_grade == null
     },
     stepOlevelValid() {
-      return this.selected_olevel_subjects.length >= 9
+      return true// this.selected_olevel_subjects.length >= 9
     },
     stepAlevelValid() {
-      return false// this.selected_alevel_subjects.length < 5
+      return this.selected_alevel_subjects.length >= 5
     },
   },
   watch: {
@@ -369,6 +398,22 @@ export default {
           this.$set(this.selected_olevel_subjects, this.selected_olevel_subjects.length - 1, lastSubject)
           this.disableOLevelOptions()
           this.addOSubject()
+        }
+      },
+      deep: true,
+    },
+    selected_alevel_subjects: {
+      handler() {
+        if (this.selected_alevel_subjects.length >= 5) { return }
+        const lastSubject = this.selected_alevel_subjects[this.selected_alevel_subjects.length - 1]
+        if (lastSubject.subject_id != null && lastSubject.grade != null) {
+          const sub = this.a_subjects.find(x => x.id === lastSubject.subject_id)
+          lastSubject.code = sub.code
+          lastSubject.name = sub.name
+          lastSubject.removable = true
+          this.$set(this.selected_alevel_subjects, this.selected_alevel_subjects.length - 1, lastSubject)
+          this.disableALevelOptions()
+          this.addASubject()
         }
       },
       deep: true,
@@ -392,6 +437,16 @@ export default {
         }
       })
     },
+    disableALevelOptions() {
+      const subjectIds = this.selected_alevel_subjects.map(item => item.subject_id)
+      subjectIds.forEach(subjectId => {
+        const sub = this.a_subjects.find(x => x.id === subjectId)
+        if (sub) {
+          sub.disabled = true
+          this.$set(this.a_subjects, this.a_subjects.indexOf(sub), sub)
+        }
+      })
+    },
     addOSubject() {
       // const sub = this.o_subjects.find(x => x.id === this.subject_id)
       const exists = false// this.selected_olevel_subjects.find(x => x.subject_id === this.subject_id)
@@ -412,16 +467,16 @@ export default {
       this.grade = null
     },
     addASubject() {
-      const sub = this.a_subjects.find(x => x.id === this.a_subject_id)
-      const exists = this.selected_alevel_subjects.find(x => x.subject_id === this.a_subject_id)
-      if (exists || this.selected_alevel_subjects.length > 5) {
+      // const sub = this.a_subjects.find(x => x.id === this.a_subject_id)
+      const exists = false// this.selected_alevel_subjects.find(x => x.subject_id === this.a_subject_id)
+      if (exists || this.selected_alevel_subjects.length >= 5) {
         return
       }
       const subject = {
         subject_id: this.a_subject_id,
         grade: this.a_grade,
-        subject_name: sub.name,
-        code: sub.code,
+        subject_name: '',
+        code: '',
         removable: false,
       }
       this.selected_alevel_subjects.push(subject)
@@ -438,6 +493,9 @@ export default {
     },
     removeASubject(id) {
       this.selected_alevel_subjects = this.selected_alevel_subjects.filter(x => x.subject_id !== id)
+      const sub = this.a_subjects.find(x => x.id === id)
+      sub.disabled = false
+      this.$set(this.a_subjects, this.a_subjects.indexOf(sub), sub)
     },
     fetchSubjects() {
       this.$http.get('/subjects')
