@@ -53,7 +53,7 @@
                 class="mt-2"
               >
                 <v-card-title>
-                  Male
+                  {{item.gender}}
                 </v-card-title>
               </v-tab-item>
             </v-tabs>
@@ -106,7 +106,7 @@ export default {
         },
         { text: 'Date created', value: 'created_at' },
         { text: 'Date updated', value: 'updated_at' },
-        { text: 'Gender', value: 'user_id' },
+        { text: 'Gender', value: 'gender' },
         { text: '', value: 'data-table-expand' },
       ],
       tab: null,
