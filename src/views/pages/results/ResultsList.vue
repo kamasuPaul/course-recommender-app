@@ -348,13 +348,6 @@ export default {
       a_subjects: [],
       a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P', '1', '0'],
       selected_alevel_subjects: [
-        {
-          subject_id: this.subject_id,
-          grade: this.grade,
-          subject_name: '',
-          code: '----',
-          removable: false,
-        },
       ],
       gender: true,
       submitLoading: false,
@@ -445,6 +438,31 @@ export default {
         console.log(subject)
 
         this.selected_olevel_subjects.push(subject)
+      })
+    },
+    bulkAddASubjects() {
+      const subs = [{ id: 89, name: 'GENERAL PAPER', code: 'S101' },
+        { id: 63, name: 'SUBSIDIARY ICT', code: 'S850' },
+        { id: 62, name: 'SUBSIDIARY MATHEMATICS', code: 'S475' },
+      ]
+      console.log(subs)
+
+      subs.forEach(subb => {
+        console.log(subb)
+
+        const sub = this.a_subjects.find(x => x.code === subb.code)
+        console.log(sub)
+
+        const subject = {
+          subject_id: sub.id,
+          grade: '',
+          subject_name: '',
+          code: sub.code,
+          removable: true,
+        }
+        console.log(subject)
+
+        this.selected_alevel_subjects.push(subject)
       })
     },
     removeItem(id) {
@@ -540,6 +558,7 @@ export default {
           console.log('adlo')
 
           this.bulkAddSubjects()
+          this.bulkAddASubjects()
         })
     },
     submitResults() {
