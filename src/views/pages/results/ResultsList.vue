@@ -226,7 +226,10 @@
               class="mb-12 center"
               color="grey lighten-1"
             >
-              <v-item-group mandatory>
+              <v-item-group
+                v-model="selected_gender"
+                mandatory
+              >
                 <v-container>
                   <v-row justify="center">
                     <v-col
@@ -234,7 +237,6 @@
                     >
                       <v-item
                         v-slot="{ active, toggle }"
-                        @click="gender= !gender"
                       >
                         <v-card
                           :color="active ? 'primary' : ''"
@@ -350,6 +352,7 @@ export default {
       selected_alevel_subjects: [
       ],
       gender: true,
+      selected_gender: '',
       submitLoading: false,
       loading: true,
       icons: {
@@ -365,7 +368,7 @@ export default {
       return this.a_subject_id == null || this.a_grade == null
     },
     stepOlevelValid() {
-      return true// this.selected_olevel_subjects.length >= 9
+      return this.selected_olevel_subjects.length >= 9
     },
     stepAlevelValid() {
       return this.selected_alevel_subjects.length >= 5
@@ -420,14 +423,9 @@ export default {
         { id: 13, name: 'MATHEMATICS', code: '456' },
         { id: 10, name: 'PHYSICS', code: '535' },
       ]
-      console.log(subs)
 
       subs.forEach(subb => {
-        console.log(subb)
-
         const sub = this.o_subjects.find(x => x.code === subb.code)
-        console.log(sub)
-
         const subject = {
           subject_id: sub.id,
           grade: '',
@@ -435,8 +433,6 @@ export default {
           code: sub.code,
           removable: true,
         }
-        console.log(subject)
-
         this.selected_olevel_subjects.push(subject)
       })
     },
@@ -445,14 +441,8 @@ export default {
         { id: 63, name: 'SUBSIDIARY ICT', code: 'S850' },
         { id: 62, name: 'SUBSIDIARY MATHEMATICS', code: 'S475' },
       ]
-      console.log(subs)
-
       subs.forEach(subb => {
-        console.log(subb)
-
         const sub = this.a_subjects.find(x => x.code === subb.code)
-        console.log(sub)
-
         const subject = {
           subject_id: sub.id,
           grade: '',
@@ -460,8 +450,6 @@ export default {
           code: sub.code,
           removable: true,
         }
-        console.log(subject)
-
         this.selected_alevel_subjects.push(subject)
       })
     },
@@ -555,7 +543,6 @@ export default {
 
           this.a_subjects.sort((a, b) => a.name.localeCompare(b.name))
           this.o_subjects.sort((a, b) => a.name.localeCompare(b.name))
-          console.log('adlo')
 
           this.bulkAddSubjects()
           this.bulkAddASubjects()
@@ -567,6 +554,7 @@ export default {
       const data = {
         o_level_subjects: this.selected_olevel_subjects,
         a_level_subjects: this.selected_alevel_subjects,
+        gender: this.selected_gender === 0 ? 'male' : 'female',
       }
 
       this.$http.post('/results', data)

@@ -89,10 +89,7 @@ export default {
   methods: {
     fetchEligibleProgrammes() {
       this.loading = true
-      const parameters = {
-        result: this.resultId,
-        gender: 'male',
-      }
+      const parameters = { result: this.resultId }
       this.$http
         .get('/courses/eligble', {
           params: parameters,
