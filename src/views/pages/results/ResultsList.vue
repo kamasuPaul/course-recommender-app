@@ -355,6 +355,7 @@ export default {
   watch: {
     selected_olevel_subjects: {
       handler() {
+        if (this.selected_olevel_subjects.length >= 10) { return }
         const lastSubject = this.selected_olevel_subjects[this.selected_olevel_subjects.length - 1]
         if (lastSubject.subject_id != null && lastSubject.grade != null) {
           const sub = this.o_subjects.find(x => x.id === lastSubject.subject_id)
@@ -362,7 +363,6 @@ export default {
           lastSubject.name = sub.name
           lastSubject.removable = true
           this.$set(this.selected_olevel_subjects, this.selected_olevel_subjects.length - 1, lastSubject)
-          console.log('array changed', lastSubject)
           this.disableOLevelOptions()
           this.addOSubject()
         }
