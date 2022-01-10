@@ -38,122 +38,81 @@
 
         <v-stepper-items>
           <v-stepper-content step="1">
-            <!-- <v-card
-              class="mb-12"
-              color="grey lighten-1"
-            > -->
-            <v-form class="multi-col-validation mt-6">
-              <v-row>
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-select
-                    v-model="subject_id"
-                    :items="o_subjects"
-                    filled
-                    label="Subject"
-                    item-text="name"
-                    item-value="id"
-                  ></v-select>
-                </v-col>
-
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-select
-                    v-model="grade"
-                    :items="o_grades"
-                    filled
-                    label="Grade"
-                  ></v-select>
-                </v-col>
-                <v-col
-                  md="4"
-                  cols="12"
-                >
-                  <v-btn
-                    dense
-                    outlined
-                    :disabled="disabled"
-                    @click="addOSubject"
-                  >
-                    Add subject
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th class="text-uppercase">
-                        Subject
-                      </th>
-                      <th class="text-center text-uppercase">
-                        Grade
-                      </th>
-                      <th class="text-center text-uppercase">
-                        Subject code
-                      </th>
-                      <th class="text-center text-uppercase">
-                        #
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(item,index) in selected_olevel_subjects"
-                      :key="item.subject_id"
-                    >
-                      <td>{{ index+1 }}</td>
-                      <td>
-                        <v-select
-                          v-model="item.subject_id"
-                          :items="o_subjects"
-                          filled
-                          label="Subject"
-                          item-text="name"
-                          item-value="id"
-                        ></v-select>
-                      </td>
-                      <td class="text-center">
-                        <v-select
-                          v-model="item.grade"
-                          :items="o_grades"
-                          filled
-                          label="Grade"
-                        ></v-select>
-                      </td>
-                      <td class="text-center">
-                        {{ item.code }}
-                      </td>
-                      <td class="text-center">
-                        <span v-if="item.removable">
-                          <v-tooltip bottom>
-                            <template
-                              v-slot:activator="{ on, attrs }"
-                            >
-                              <v-icon
-                                size="30"
-                                v-bind="attrs"
-                                @click="removeSubject(item.subject_id)"
-                                v-on="on"
+            <v-row>
+              <v-col
+                md="12"
+              >
+                <v-form class="multi-col-validation mt-6">
+                  <v-simple-table>
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th class="text-uppercase">
+                          Subject
+                        </th>
+                        <th class="text-center text-uppercase">
+                          Grade
+                        </th>
+                        <th class="text-center text-uppercase">
+                          Subject code
+                        </th>
+                        <th class="text-center text-uppercase">
+                          #
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item,index) in selected_olevel_subjects"
+                        :key="item.subject_id"
+                      >
+                        <td>{{ index+1 }}</td>
+                        <td>
+                          <v-select
+                            v-model="item.subject_id"
+                            :items="o_subjects"
+                            filled
+                            label="Subject"
+                            item-text="name"
+                            item-value="id"
+                          ></v-select>
+                        </td>
+                        <td class="text-center">
+                          <v-select
+                            v-model="item.grade"
+                            :items="o_grades"
+                            filled
+                            label="Grade"
+                          ></v-select>
+                        </td>
+                        <td class="text-center">
+                          {{ item.code }}
+                        </td>
+                        <td class="text-center">
+                          <span v-if="item.removable">
+                            <v-tooltip bottom>
+                              <template
+                                v-slot:activator="{ on, attrs }"
                               >
-                                {{ icons.mdiCloseCircleOutline }}
-                              </v-icon>
-                            </template>
-                            <span>Remove subject</span>
-                          </v-tooltip>
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </v-col>
-              </v-row>
-            </v-form>
-            <!-- </v-card> -->
+                                <v-icon
+                                  size="30"
+                                  v-bind="attrs"
+                                  @click="removeSubject(item.subject_id)"
+                                  v-on="on"
+                                >
+                                  {{ icons.mdiCloseCircleOutline }}
+                                </v-icon>
+                              </template>
+                              <span>Remove subject</span>
+                            </v-tooltip>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
+                </v-form>
+              </v-col>
+            </v-row>
             <v-btn
               color="primary"
               :disabled="stepOlevelValid"
