@@ -113,13 +113,17 @@
                 </v-form>
               </v-col>
             </v-row>
-            <v-btn
-              color="primary"
-              :disabled="stepOlevelValid"
-              @click="e1 = 2"
-            >
-              Next: A level results
-            </v-btn>
+            <v-row>
+              <v-col>
+                <v-btn
+                  color="primary mt-6"
+                  :disabled="!stepOlevelValid"
+                  @click="e1 = 2"
+                >
+                  Next: A level results
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-stepper-content>
 
           <v-stepper-content step="2">
@@ -346,7 +350,7 @@ export default {
       return this.a_subject_id == null || this.a_grade == null
     },
     stepOlevelValid() {
-      return false// this.selected_olevel_subjects.length < 8
+      return this.selected_olevel_subjects.length >= 9
     },
     stepAlevelValid() {
       return false// this.selected_alevel_subjects.length < 5
