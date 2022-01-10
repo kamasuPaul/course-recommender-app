@@ -85,11 +85,71 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <OLevelResults
-                    v-if="selected_olevel_subjects.length > 0"
-                    :selected-subjects="selected_olevel_subjects"
-                    @removeItem="removeSubject($event)"
-                  ></OLevelResults>
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th class="text-uppercase">
+                        Subject
+                      </th>
+                      <th class="text-center text-uppercase">
+                        Grade
+                      </th>
+                      <th class="text-center text-uppercase">
+                        Subject code
+                      </th>
+                      <th class="text-center text-uppercase">
+                        #
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(item,index) in selected_olevel_subjects"
+                      :key="item.subject_id"
+                    >
+                      <td>{{ index+1 }}</td>
+                      <td>
+                        <v-select
+                          v-model="item.subject_id"
+                          :items="o_subjects"
+                          filled
+                          label="Subject"
+                          item-text="name"
+                          item-value="id"
+                        ></v-select>
+                      </td>
+                      <td class="text-center">
+                        <v-select
+                          v-model="item.grade"
+                          :items="o_grades"
+                          filled
+                          label="Grade"
+                        ></v-select>
+                      </td>
+                      <td class="text-center">
+                        {{ item.code }}
+                      </td>
+                      <td class="text-center">
+                        <span v-if="item.removable">
+                          <v-tooltip bottom>
+                            <template
+                              v-slot:activator="{ on, attrs }"
+                            >
+                              <v-icon
+                                size="30"
+                                v-bind="attrs"
+                                @click="removeSubject(item.subject_id)"
+                                v-on="on"
+                              >
+                                {{ icons.mdiCloseCircleOutline }}
+                              </v-icon>
+                            </template>
+                            <span>Remove subject</span>
+                          </v-tooltip>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </v-col>
               </v-row>
             </v-form>
@@ -241,11 +301,11 @@
               Back
             </v-btn>
             <v-btn
-              color="primary"
+              color="primary mt-3 mb-3"
               :loading="submitLoading"
               @click="submitResults()"
             >
-              Submit
+              SUBMIT AND CALCULATE WEIGHTS
             </v-btn>
           </v-stepper-content>
         </v-stepper-items>
@@ -278,13 +338,12 @@
 </template>
 
 <script>
-import OLevelResults from './OLevelResults.vue'
+import { mdiCloseCircleOutline } from '@mdi/js'
 import ALevelResults from './ALevelResults.vue'
 import SavedResults from './SavedResults.vue'
 
 export default {
   components: {
-    OLevelResults,
     ALevelResults,
     SavedResults,
   },
@@ -301,6 +360,13 @@ export default {
       o_subjects: [],
       o_grades: ['D1', 'D2', 'C3', 'C4', 'C5', 'C6', 'P7', 'P8', 'F9', 'X'],
       selected_olevel_subjects: [
+        {
+          subject_id: this.subject_id,
+          grade: this.grade,
+          subject_name: '',
+          code: '----',
+          removable: false,
+        },
       ],
       a_subjects: [],
       a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P'],
@@ -308,6 +374,9 @@ export default {
       gender: true,
       submitLoading: false,
       loading: true,
+      icons: {
+        mdiCloseCircleOutline,
+      },
     }
   },
   computed: {
@@ -318,10 +387,28 @@ export default {
       return this.a_subject_id == null || this.a_grade == null
     },
     stepOlevelValid() {
-      return this.selected_olevel_subjects.length < 8
+      return false// this.selected_olevel_subjects.length < 8
     },
     stepAlevelValid() {
-      return this.selected_alevel_subjects.length < 5
+      return false// this.selected_alevel_subjects.length < 5
+    },
+  },
+  watch: {
+    selected_olevel_subjects: {
+      handler() {
+        const lastSubject = this.selected_olevel_subjects[this.selected_olevel_subjects.length - 1]
+        if (lastSubject.subject_id != null && lastSubject.grade != null) {
+          const sub = this.o_subjects.find(x => x.id === lastSubject.subject_id)
+          lastSubject.code = sub.code
+          lastSubject.name = sub.name
+          lastSubject.removable = true
+          this.$set(this.selected_olevel_subjects, this.selected_olevel_subjects.length - 1, lastSubject)
+          console.log('array changed', lastSubject)
+          this.disableOLevelOptions()
+          this.addOSubject()
+        }
+      },
+      deep: true,
     },
   },
   mounted() {
@@ -329,17 +416,31 @@ export default {
     this.fetchSavedResults()
   },
   methods: {
+    removeItem(id) {
+      this.$emit('removeItem', id)
+    },
+    disableOLevelOptions() {
+      const subjectIds = this.selected_olevel_subjects.map(item => item.subject_id)
+      subjectIds.forEach(subjectId => {
+        const sub = this.o_subjects.find(x => x.id === subjectId)
+        if (sub) {
+          sub.disabled = true
+          this.$set(this.o_subjects, this.o_subjects.indexOf(sub), sub)
+        }
+      })
+    },
     addOSubject() {
-      const sub = this.o_subjects.find(x => x.id === this.subject_id)
-      const exists = this.selected_olevel_subjects.find(x => x.subject_id === this.subject_id)
-      if (exists || this.selected_olevel_subjects.length > 10) {
+      // const sub = this.o_subjects.find(x => x.id === this.subject_id)
+      const exists = false// this.selected_olevel_subjects.find(x => x.subject_id === this.subject_id)
+      if (exists || this.selected_olevel_subjects.length >= 10) {
         return
       }
       const subject = {
         subject_id: this.subject_id,
         grade: this.grade,
-        subject_name: sub.name,
-        code: sub.code,
+        subject_name: 'name', // sub.name,
+        code: 'code', // sub.code,
+        removable: false,
       }
       this.selected_olevel_subjects.push(subject)
 
@@ -358,6 +459,7 @@ export default {
         grade: this.a_grade,
         subject_name: sub.name,
         code: sub.code,
+        removable: false,
       }
       this.selected_alevel_subjects.push(subject)
 
@@ -367,6 +469,9 @@ export default {
     },
     removeSubject(id) {
       this.selected_olevel_subjects = this.selected_olevel_subjects.filter(x => x.subject_id !== id)
+      const sub = this.o_subjects.find(x => x.id === id)
+      sub.disabled = false
+      this.$set(this.o_subjects, this.o_subjects.indexOf(sub), sub)
     },
     removeASubject(id) {
       this.selected_alevel_subjects = this.selected_alevel_subjects.filter(x => x.subject_id !== id)
@@ -402,6 +507,12 @@ export default {
         .then(response => {
           console.log(response)
           this.fetchSavedResults()
+          this.snackbarText = 'Results saved successfully'
+          this.snackbar = true
+
+          // go to courses page
+          const resultId = response.data.id
+          this.$router.push({ name: 'results-eligible', params: { id: resultId } })
         })
         .catch(error => {
           console.log(error)
