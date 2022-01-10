@@ -344,13 +344,6 @@ export default {
       o_subjects: [],
       o_grades: ['D1', 'D2', 'C3', 'C4', 'C5', 'C6', 'P7', 'P8', 'F9', 'X'],
       selected_olevel_subjects: [
-        {
-          subject_id: this.subject_id,
-          grade: this.grade,
-          subject_name: '',
-          code: '----',
-          removable: false,
-        },
       ],
       a_subjects: [],
       a_grades: ['A', 'B', 'C', 'D', 'E', 'F', 'O', 'U', 'P', '1', '0'],
@@ -424,6 +417,36 @@ export default {
     this.fetchSavedResults()
   },
   methods: {
+    bulkAddSubjects() {
+      const subs = [
+        { id: 2, name: 'BIOLOGY', code: '553' },
+        { id: 4, name: 'CHEMISTRY', code: '545' },
+        { id: 6, name: 'ENGLISH LANGUAGE', code: '112' },
+        { id: 15, name: 'GEOGRAPHY', code: '273' },
+        { id: 5, name: 'HISTORY', code: '241' },
+        { id: 13, name: 'MATHEMATICS', code: '456' },
+        { id: 10, name: 'PHYSICS', code: '535' },
+      ]
+      console.log(subs)
+
+      subs.forEach(subb => {
+        console.log(subb)
+
+        const sub = this.o_subjects.find(x => x.code === subb.code)
+        console.log(sub)
+
+        const subject = {
+          subject_id: sub.id,
+          grade: '',
+          subject_name: '',
+          code: sub.code,
+          removable: true,
+        }
+        console.log(subject)
+
+        this.selected_olevel_subjects.push(subject)
+      })
+    },
     removeItem(id) {
       this.$emit('removeItem', id)
     },
@@ -514,6 +537,9 @@ export default {
 
           this.a_subjects.sort((a, b) => a.name.localeCompare(b.name))
           this.o_subjects.sort((a, b) => a.name.localeCompare(b.name))
+          console.log('adlo')
+
+          this.bulkAddSubjects()
         })
     },
     submitResults() {
