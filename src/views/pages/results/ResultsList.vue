@@ -368,10 +368,10 @@ export default {
       return this.a_subject_id == null || this.a_grade == null
     },
     stepOlevelValid() {
-      return this.selected_olevel_subjects.length >= 9
+      return this.selected_olevel_subjects.length >= 9 && this.subjectsValid(this.selected_olevel_subjects)
     },
     stepAlevelValid() {
-      return this.selected_alevel_subjects.length >= 5
+      return this.selected_alevel_subjects.length >= 5 && this.subjectsValid(this.selected_alevel_subjects)
     },
   },
   watch: {
@@ -413,6 +413,22 @@ export default {
     this.fetchSavedResults()
   },
   methods: {
+    subjectsValid(subjectArray) {
+      let allSubjectsValid = true
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < subjectArray.length; i++) {
+        const subject = subjectArray[i]
+        if (subject.grade === ''
+         || subject.grade == null
+         || subject.subject_id === ''
+         || subject.subject_id == null) {
+          allSubjectsValid = false
+          break
+        }
+      }
+
+      return allSubjectsValid
+    },
     bulkAddSubjects() {
       const subs = [
         { id: 2, name: 'BIOLOGY', code: '553' },
