@@ -72,52 +72,14 @@
               justify="start"
             >
               <v-col
-                v-if="program.essential_required.length > 0"
                 md="4"
               >
-                <v-card
-                  tile
-                >
-                  <v-list dense>
-                    <v-subheader>Required subjects: Must have the following </v-subheader>
-                    <v-list-item-group
-                      color="primary"
-                    >
-                      <v-list-item
-                        v-for="(item, i) in program.essential_required"
-                        :key="i"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title v-text="item.name"></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                </v-card>
+                <EssentialSubjects :program="program"></EssentialSubjects>
               </v-col>
               <v-col
                 v-if="program.essential_optional.length > 0"
                 md="4"
               >
-                <v-card
-                  tile
-                >
-                  <v-list dense>
-                    <v-subheader>Required subjects: {{ program.essential_relationship }} of </v-subheader>
-                    <v-list-item-group
-                      color="primary"
-                    >
-                      <v-list-item
-                        v-for="(item, i) in program.essential_optional"
-                        :key="i"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title v-text="item.name"></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                </v-card>
               </v-col>
             </v-row>
             <v-row>
@@ -146,7 +108,12 @@
   </div>
 </template>
 <script>
+import EssentialSubjects from './subjects/EssentialSubjects.vue'
+
 export default {
+  components: {
+    EssentialSubjects,
+  },
   data() {
     return {
       headers: [
