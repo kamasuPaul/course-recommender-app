@@ -77,9 +77,12 @@
                 <EssentialSubjects :program="program"></EssentialSubjects>
               </v-col>
               <v-col
-                v-if="program.essential_optional.length > 0"
                 md="4"
               >
+                <RelevantSubjects
+                  v-if="program.relevant_subjects.length>0"
+                  :program="program"
+                ></RelevantSubjects>
               </v-col>
             </v-row>
             <v-row>
@@ -109,10 +112,12 @@
 </template>
 <script>
 import EssentialSubjects from './subjects/EssentialSubjects.vue'
+import RelevantSubjects from './subjects/RelevantSubjects.vue'
 
 export default {
   components: {
     EssentialSubjects,
+    RelevantSubjects,
   },
   data() {
     return {
