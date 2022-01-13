@@ -22,7 +22,7 @@
     <v-col cols="11">
       <v-card>
         <v-card-title class="align-start">
-          <span>Your eligble for the following university programmes </span>
+          <span>You are eligible for the following university programmes </span>
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
